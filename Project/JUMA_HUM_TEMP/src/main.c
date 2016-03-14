@@ -39,6 +39,7 @@
 #include "main.h"
 #include "usb_device.h"
 #include "usbd_cdc_if.h"
+#include "I2CSoft.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -56,7 +57,7 @@ extern uint8_t UserTxBufferFS[];
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 static void SystemClock_Config(void);
-static void Error_Handler(void);
+
 
 /* Private functions ---------------------------------------------------------*/
 /* USER CODE BEGIN 4 */
@@ -93,6 +94,7 @@ uint8_t HELLO1[] = "<----->/**********************/<----->\r\n";
 uint8_t HELLO2[] = "<----->/**********************/-----<\r\n";
 int main(void)
 {
+    uint8_t id;
     /* STM32F4xx HAL library initialization:
        - Configure the Flash prefetch, Flash preread and Buffer caches
        - Systick timer is configured by default as source of time base, but user 
@@ -111,6 +113,7 @@ int main(void)
     /* Add your application code here
      */
     UsbDeviceInit();
+    i2c_soft_init();
     HAL_Delay(10000);
     
     while(CDC_Transmit_FS(HELLO0,sizeof(HELLO0)));
@@ -121,9 +124,11 @@ int main(void)
     /* Infinite loop */
     while (1){
         BSP_LED_Toggle(LED1);
+        i2c_multi_read(0xBE,0x0F,&id, 1);
+        while(CDC_Transmit_FS(&id,sizeof(id)));
         Main_loop();
         
-        //HAL_Delay(1000);
+        HAL_Delay(1000);
     }
 }
 

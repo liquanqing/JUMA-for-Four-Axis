@@ -641,6 +641,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Inc_Lib\Queue.c</FilePath>
             </File>
+            <File>
+              <FileName>I2CSoft.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Inc_Lib\I2CSoft.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
