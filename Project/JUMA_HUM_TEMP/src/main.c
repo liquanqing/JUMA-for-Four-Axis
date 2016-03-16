@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    Templates/Src/main.c 
+  * @file    Templates/Src/main.c
   * @author  MCD Application Team
   * @version V1.2.3
   * @date    29-January-2016
@@ -40,6 +40,7 @@
 #include "usb_device.h"
 #include "usbd_cdc_if.h"
 #include "I2CSoft.h"
+#include "HTS221.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -64,8 +65,8 @@ static void SystemClock_Config(void);
 uint8_t rxBuf[100] ={0};
 void Main_loop(void)
 {
-    uint32_t buffsize; 
-    
+    uint32_t buffsize;
+
     if(UserTxBufPtrOut != UserTxBufPtrIn)
     {
         if(UserTxBufPtrOut > UserTxBufPtrIn) /* Rollback */
@@ -78,7 +79,7 @@ void Main_loop(void)
         }
         UserTxBufPtrOut += buffsize;
         memcpy(rxBuf,UserTxBufferFS+UserTxBufPtrOut,buffsize);
-        CDC_Transmit_FS(rxBuf,buffsize);       
+        CDC_Transmit_FS(rxBuf,buffsize);
         //USBD_CDC_ReceivePacket(&hUsbDeviceFS);
     }
 }
@@ -97,10 +98,10 @@ int main(void)
     uint8_t id;
     /* STM32F4xx HAL library initialization:
        - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Systick timer is configured by default as source of time base, but user 
-             can eventually implement his proper time base source (a general purpose 
-             timer for example or other time source), keeping in mind that Time base 
-             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
+       - Systick timer is configured by default as source of time base, but user
+             can eventually implement his proper time base source (a general purpose
+             timer for example or other time source), keeping in mind that Time base
+             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
              handled in milliseconds basis.
        - Low Level Initialization
      */
@@ -112,29 +113,43 @@ int main(void)
 
     /* Add your application code here
      */
-    UsbDeviceInit();
-    i2c_soft_init();
-    HAL_Delay(10000);
-    
+    //UsbDeviceInit();
+    HAL_Delay(3000);
+
+    while(HUM_TEMP_SUCCESS != hts221.dev_on(&i2c_soft)){
+        BSP_LED_Toggle(LED1);
+        HAL_Delay(200);
+    }
+    if(HUM_TEMP_SUCCESS == hts221.read_id(&id)){
+    }
+
+    while( id != I_AM_HTS221){
+        hts221.read_id(&id);
+        BSP_LED_Toggle(LED1);
+        HAL_Delay(500);
+    }
+    #if 0
     while(CDC_Transmit_FS(HELLO0,sizeof(HELLO0)));
     while(CDC_Transmit_FS(HELLO1,sizeof(HELLO1)));
     while(CDC_Transmit_FS(HELLO2,sizeof(HELLO2)));
+    #endif
     BSP_LED_Init(LED1);
 
     /* Infinite loop */
     while (1){
         BSP_LED_Toggle(LED1);
-        i2c_multi_read(0xBE,0x0F,&id, 1);
-        while(CDC_Transmit_FS(&id,sizeof(id)));
-        Main_loop();
-        
+        //i2c_multi_read(0xBE,0x0F,&id, 1);
+        i2c_soft.multi_read_byte(0xBE,0x0F,&id, 1);
+        //while(CDC_Transmit_FS(&id,sizeof(id)));
+        //Main_loop();
+
         HAL_Delay(1000);
     }
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = PLL (HSE)
   *            SYSCLK(Hz)                     = 84000000
   *            HCLK(Hz)                       = 84000000
@@ -198,7 +213,7 @@ void SystemClock_Config(void)
   * @retval None
   */
 void assert_failed(uint8_t* file, uint32_t line)
-{ 
+{
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
@@ -211,10 +226,10 @@ void assert_failed(uint8_t* file, uint32_t line)
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

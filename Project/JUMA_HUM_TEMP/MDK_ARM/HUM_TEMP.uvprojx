@@ -373,7 +373,7 @@
               <MiscControls>--c99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F401xE,USE_USB_FS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\inc;..\..\..\Inc_Lib;..\..\..\Driver\BSP;..\..\..\Driver\BSP\CONNON_V2;..\..\..\Driver\BSP\VCP;..\..\..\Driver\CMSIS\Device\ST\STM32F4xx\Include;..\..\..\Driver\CMSIS\Include;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc\Legacy;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</IncludePath>
+              <IncludePath>..\inc;..\..\..\Inc_Lib;..\..\..\Driver\BSP;..\..\..\Driver\BSP\CONNON_V2;..\..\..\Driver\BSP\VCP;..\..\..\Driver\BSP\I2C;..\..\..\Driver\BSP\HUM_TEMP;..\..\..\Driver\CMSIS\Device\ST\STM32F4xx\Include;..\..\..\Driver\CMSIS\Include;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc\Legacy;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -470,6 +470,26 @@
               <FileName>usbd_desc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Driver\BSP\VCP\usbd_desc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Driver/BSP/I2C</GroupName>
+          <Files>
+            <File>
+              <FileName>I2CSoft.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Driver\BSP\I2C\I2CSoft.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Driver/BSP/Sensor</GroupName>
+          <Files>
+            <File>
+              <FileName>HTS221.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Driver\BSP\HUM_TEMP\HTS221.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -640,11 +660,6 @@
               <FileName>Queue.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Inc_Lib\Queue.c</FilePath>
-            </File>
-            <File>
-              <FileName>I2CSoft.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Inc_Lib\I2CSoft.c</FilePath>
             </File>
           </Files>
         </Group>
