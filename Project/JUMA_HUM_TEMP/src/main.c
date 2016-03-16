@@ -96,6 +96,8 @@ uint8_t HELLO2[] = "<----->/**********************/-----<\r\n";
 int main(void)
 {
     uint8_t id;
+    float Hum;
+    float Temp;
     /* STM32F4xx HAL library initialization:
        - Configure the Flash prefetch, Flash preread and Buffer caches
        - Systick timer is configured by default as source of time base, but user
@@ -139,10 +141,11 @@ int main(void)
     while (1){
         BSP_LED_Toggle(LED1);
         //i2c_multi_read(0xBE,0x0F,&id, 1);
-        i2c_soft.multi_read_byte(0xBE,0x0F,&id, 1);
+        //i2c_soft.multi_read_byte(0xBE,0x0F,&id, 1);
         //while(CDC_Transmit_FS(&id,sizeof(id)));
         //Main_loop();
-
+        hts221.get_humidity(&Hum);
+        hts221.get_temperature(&Temp);
         HAL_Delay(1000);
     }
 }
