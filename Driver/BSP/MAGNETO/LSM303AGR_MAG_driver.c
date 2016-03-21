@@ -26,7 +26,8 @@
 #include "LSM303AGR_MAG_driver.h"
 //#include "i2C_mems.h"												//[Example]
 #include "stm32f4xx_hal.h"
-#include "x_nucleo_iks01a1.h"
+
+#include "I2CSoft.h"
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
@@ -34,8 +35,55 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
+i2c_dev_t *pMAG_Transmit = &i2c_soft;
+/*******************************************************************************
+* Function Name		: LSM303AGR_MAG_ReadReg
+* Description		: Generic Reading function. It must be fullfilled with either
+*					: I2C or SPI reading functions
+* Input				: Register Address
+* Output			: Data REad
+* Return			: None
+*******************************************************************************/
+uint8_t LSM303AGR_MAG_ReadReg(u8_t Reg, u8_t* Data)
+{
 
+    //To be completed with either I2c or SPI reading function
+    //i.e.: *Data = SPI_Mems_Read_Reg( Reg );
+    //return I2C_EXPBD_ReadData(Data, LSM303AGR_MAG_I2C_ADDRESS, Reg, 1);
+    
+    if (I2C_SUCCESS != pMAG_Transmit->multi_write_byte(LSM303AGR_MAG_I2C_ADDRESS,\
+                                        Reg,\
+                                        Data,\
+                                        1)){
+        return HAL_ERROR;
+    }
+    
+    return HAL_OK;
 
+}
+
+/*******************************************************************************
+* Function Name		: LSM303AGR_MAG_WriteReg
+* Description		: Generic Writing function. It must be fullfilled with either
+*					: I2C or SPI writing function
+* Input				: Register Address, Data to be written
+* Output			: None
+* Return			: None
+*******************************************************************************/
+u8_t LSM303AGR_MAG_WriteReg(u8_t Reg, u8_t Data)
+{
+
+    //To be completed with either I2c or SPI writing function
+    //i.e.: SPI_Mems_Write_Reg(Reg, Data);
+    if (I2C_SUCCESS != pMAG_Transmit->single_write_byte( LSM303AGR_MAG_I2C_ADDRESS,\
+                                                         Reg,\
+                                                         Data)){
+        return HAL_ERROR;
+    }
+
+    return HAL_OK;
+
+}
 
 /*******************************************************************************
 * Function Name		: SwapHighLowByte

@@ -42,6 +42,7 @@
 #include "I2CSoft.h"
 #include "HTS221.h"
 #include "lsm6ds3.h"
+#include "lsm303agr.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -98,6 +99,7 @@ uint8_t HELLO2[] = "<----->/**********************/-----<\r\n";
 
 int32_t Data[3] = {0};
 int32_t Gata[3] = {0};
+int32_t _Magnetic_mGa[3] = {0};
 int main(void)
 {
     uint8_t id;
@@ -146,7 +148,7 @@ int main(void)
     
     if(IMU_6AXES_OK == LSM6DS3Drv.Read_XG_ID(&id)){
         while( id != I_AM_LSM6DS3_XG){
-            HAL_Delay(500);
+          
         }
     }
 
@@ -154,12 +156,17 @@ int main(void)
         HAL_Delay(200);
     }
     if(HUM_TEMP_SUCCESS == hts221.read_id(&id)){
+        while( id != I_AM_HTS221){
+
+        }
+    }
+    
+    while(!init_LSM303AGR_mag(LSM303AGR_MAG_ODR_100Hz))
+    {
+
     }
 
-    while( id != I_AM_HTS221){
-        hts221.read_id(&id);
-        HAL_Delay(500);
-    }
+    
     #if 0
     while(CDC_Transmit_FS(HELLO0,sizeof(HELLO0)));
     while(CDC_Transmit_FS(HELLO1,sizeof(HELLO1)));
@@ -176,10 +183,14 @@ int main(void)
         hts221.get_temperature(&Temp);
         LSM6DS3Drv.Get_X_Axes(Data);
         LSM6DS3Drv.Get_G_Axes(Gata);
+        LSM303AGR_MAG_Get_Magnetic(_Magnetic_mGa);
         
         printf("humidity = %f\r\n",Hum);
         printf("temperature = %f\r\n",Temp);
         
+        printf("Magnetic_MAG.X = %d\r\n",_Magnetic_mGa[0]);
+        printf("Magnetic_MAG.Y = %d\r\n",_Magnetic_mGa[1]);
+        printf("Magnetic_MAG.Z = %d\r\n",_Magnetic_mGa[2]);
         printf("LSM6DS3Drv_ACC.X = %d\r\n",Data[0]);
         printf("LSM6DS3Drv_ACC.Y = %d\r\n",Data[1]);
         printf("LSM6DS3Drv_ACC.Z = %d\r\n",Data[2]);

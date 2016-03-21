@@ -24,7 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "LSM303AGR_ACC_driver.h"
 #include "stm32f4xx_hal.h"
-#include "x_nucleo_iks01a1.h"
+#include "I2CSoft.h"
 //#include "i2C_mems.h"												//[Example]
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,10 +34,56 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-
+i2c_dev_t *pACC_Transmit = &i2c_soft;
 /* Private functions ---------------------------------------------------------*/
 
+/*******************************************************************************
+* Function Name		: LSM303AGR_ACC_ReadReg
+* Description		: Generic Reading function. It must be fullfilled with either
+*					: I2C or SPI reading functions
+* Input				: Register Address
+* Output			: Data REad
+* Return			: None
+*******************************************************************************/
+u8_t LSM303AGR_ACC_ReadReg(u8_t Reg, u8_t* Data)
+{
 
+    //To be completed with either I2c or SPI reading function
+    //i.e.: *Data = SPI_Mems_Read_Reg( Reg );
+    if( I2C_SUCCESS != pACC_Transmit->multi_read_byte(LSM303AGR_ACC_I2C_ADDRESS,\
+                                                      Reg,
+                                                      Data,
+                                                        1)){
+        return MEMS_ERROR;
+    }
+                                                        
+    return MEMS_SUCCESS;
+    
+}
+
+/*******************************************************************************
+* Function Name		: LSM303AGR_ACC_WriteReg
+* Description		: Generic Writing function. It must be fullfilled with either
+*					: I2C or SPI writing function
+* Input				: Register Address, Data to be written
+* Output			: None
+* Return			: None
+*******************************************************************************/
+u8_t LSM303AGR_ACC_WriteReg(u8_t Reg, u8_t Data)
+{
+
+    //To be completed with either I2c or SPI writing function
+    //i.e.: SPI_Mems_Write_Reg(Reg, Data);
+    //To be completed with either I2c or SPI writing function
+    //i.e.: SPI_Mems_Write_Reg(Reg, Data);
+    if (I2C_SUCCESS != pACC_Transmit->single_write_byte( LSM303AGR_ACC_I2C_ADDRESS,\
+                                                         Reg,\
+                                                         Data)){
+        return MEMS_ERROR;
+    }
+
+    return MEMS_SUCCESS;
+}
 /*******************************************************************************
 * Function Name		: SwapHighLowByte
 * Description		: Swap High/low byte in multiple byte values

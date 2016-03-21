@@ -373,7 +373,7 @@
               <MiscControls>--c99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F401xE,USE_USB_FS,__FPU_USED</Define>
               <Undefine></Undefine>
-              <IncludePath>..\inc;..\..\..\Inc_Lib;..\..\..\Driver\BSP;..\..\..\Driver\BSP\CONNON_V2;..\..\..\Driver\BSP\VCP;..\..\..\Driver\BSP\I2C;..\..\..\Driver\BSP\HUM_TEMP;..\..\..\Driver\BSP\IMU;..\..\..\Driver\CMSIS\Device\ST\STM32F4xx\Include;..\..\..\Driver\CMSIS\Include;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc\Legacy;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</IncludePath>
+              <IncludePath>..\inc;..\..\..\Inc_Lib;..\..\..\Driver\BSP;..\..\..\Driver\BSP\CONNON_V2;..\..\..\Driver\BSP\VCP;..\..\..\Driver\BSP\I2C;..\..\..\Driver\BSP\HUM_TEMP;..\..\..\Driver\BSP\IMU;..\..\..\Driver\BSP\MAGNETO;..\..\..\Driver\CMSIS\Device\ST\STM32F4xx\Include;..\..\..\Driver\CMSIS\Include;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc;..\..\..\Driver\STM32F4xx_HAL_Driver\Inc\Legacy;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;..\..\..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -500,6 +500,21 @@
               <FileName>lsm6ds3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Driver\BSP\IMU\lsm6ds3.c</FilePath>
+            </File>
+            <File>
+              <FileName>lsm303agr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Driver\BSP\MAGNETO\lsm303agr.c</FilePath>
+            </File>
+            <File>
+              <FileName>LSM303AGR_ACC_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Driver\BSP\MAGNETO\LSM303AGR_ACC_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>LSM303AGR_MAG_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Driver\BSP\MAGNETO\LSM303AGR_MAG_driver.c</FilePath>
             </File>
           </Files>
         </Group>
