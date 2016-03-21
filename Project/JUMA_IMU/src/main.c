@@ -97,6 +97,7 @@ uint8_t HELLO2[] = "<----->/**********************/-----<\r\n";
 
 
 int32_t Data[3] = {0};
+int32_t Gata[3] = {0};
 int main(void)
 {
     uint8_t id;
@@ -140,19 +141,16 @@ int main(void)
     i2c_soft.dev_on();
     
     while(IMU_6AXES_OK != LSM6DS3Drv.Init(&InitStructure)){
-        BSP_LED_Toggle(LED1);
         HAL_Delay(200);
     }
     
     if(IMU_6AXES_OK == LSM6DS3Drv.Read_XG_ID(&id)){
         while( id != I_AM_LSM6DS3_XG){
-            BSP_LED_Toggle(LED1);
             HAL_Delay(500);
         }
     }
 
     while(HUM_TEMP_SUCCESS != hts221.dev_on(&i2c_soft)){
-        BSP_LED_Toggle(LED1);
         HAL_Delay(200);
     }
     if(HUM_TEMP_SUCCESS == hts221.read_id(&id)){
@@ -160,7 +158,6 @@ int main(void)
 
     while( id != I_AM_HTS221){
         hts221.read_id(&id);
-        BSP_LED_Toggle(LED1);
         HAL_Delay(500);
     }
     #if 0
@@ -168,11 +165,9 @@ int main(void)
     while(CDC_Transmit_FS(HELLO1,sizeof(HELLO1)));
     while(CDC_Transmit_FS(HELLO2,sizeof(HELLO2)));
     #endif
-    BSP_LED_Init(LED1);
 
     /* Infinite loop */
     while (1){
-        BSP_LED_Toggle(LED1);
         //i2c_multi_read(0xBE,0x0F,&id, 1);
         //i2c_soft.multi_read_byte(0xBE,0x0F,&id, 1);
         //while(CDC_Transmit_FS(&id,sizeof(id)));
@@ -180,7 +175,18 @@ int main(void)
         hts221.get_humidity(&Hum);
         hts221.get_temperature(&Temp);
         LSM6DS3Drv.Get_X_Axes(Data);
-        HAL_Delay(1000);
+        LSM6DS3Drv.Get_G_Axes(Gata);
+        
+        printf("humidity = %f\r\n",Hum);
+        printf("temperature = %f\r\n",Temp);
+        
+        printf("LSM6DS3Drv_ACC.X = %d\r\n",Data[0]);
+        printf("LSM6DS3Drv_ACC.Y = %d\r\n",Data[1]);
+        printf("LSM6DS3Drv_ACC.Z = %d\r\n",Data[2]);
+        printf("LSM6DS3Drv_GRY.X = %d\r\n",Gata[0]);
+        printf("LSM6DS3Drv_GRY.Y = %d\r\n",Gata[1]);
+        printf("LSM6DS3Drv_GRY.Z = %d\r\n",Gata[2]);
+        HAL_Delay(2000);
     }
 }
 

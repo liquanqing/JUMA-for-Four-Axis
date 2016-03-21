@@ -163,7 +163,7 @@
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>..\..\..\Driver\BSP\ITM_DEBUG\STM32DBG.ini</InitializationFile>
             <Driver>Segger\JL2CM3.dll</Driver>
           </TargetDlls>
         </DebugOption>
@@ -435,6 +435,11 @@
               <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\system_stm32f4xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>INC_ITM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Driver\BSP\ITM_DEBUG\INC_ITM.c</FilePath>
             </File>
           </Files>
         </Group>
