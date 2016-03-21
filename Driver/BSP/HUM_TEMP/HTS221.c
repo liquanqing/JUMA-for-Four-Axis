@@ -72,8 +72,6 @@ ht_status_t hts221_init(i2c_dev_t *pI2cDev)
 
     pHTSTransmit = pI2cDev;
 
-    pHTSTransmit->dev_on();
-
     if(HUM_TEMP_SUCCESS != power_on()){
         return HUM_TEMP_ERR;
     }
